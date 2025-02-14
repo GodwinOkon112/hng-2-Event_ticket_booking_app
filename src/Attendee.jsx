@@ -138,7 +138,7 @@ const Attendee = () => {
         </div>
         {uploading && <p className='upload'>Uploading...</p>}
         <hr />
-        <form onClick={handleSubmit}>
+        <form >
           <div className='input-group'>
             <p>Enter your name</p>
             <input
