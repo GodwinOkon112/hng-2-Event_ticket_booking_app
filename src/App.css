@@ -655,7 +655,7 @@ input {
     margin-block: 3rem;
   }
   .navbar h1{
-  font-size: 2.5rem;
+  font-size: 2rem;
   padding-left: .7rem;
 }
 
@@ -785,7 +785,7 @@ input {
   color: #333;
   padding: .5rem 1.4rem;
   border-radius: 1rem;
-  font-size: 1.2rem;
+  font-size: .9rem;
 }
 
   .descriptions p {
@@ -811,7 +811,7 @@ input {
     background-color: #0e464f;
     margin-top: 1px;
     margin-left: 1px;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
 
   .userImage img{
