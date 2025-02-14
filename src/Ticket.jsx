@@ -1,14 +1,12 @@
 import { useRef } from 'react';
-// import html2canvas from 'html2canvas';
-// import jsPDF from 'jspdf';
 import domtoimage from 'dom-to-image';
 import Parent from './parent';
 import { useLocation } from 'react-router-dom';
 
 const Ticket = ({ fullName, email, avatar }) => {
   const ticketRef = useRef(null);
-  const location = useLocation();  // Added to retrieve state data
-const formData = location.state || { fullName: "", email: "", avatar: "" };  // Added: Default empty data if none passed
+  const location = useLocation();  
+const formData = location.state || { fullName: "", email: "", avatar: "" };  
 
   const handleDownload = async () => {
     if (ticketRef.current) {

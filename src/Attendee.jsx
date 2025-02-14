@@ -35,7 +35,7 @@ const Attendee = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
      if (formData.fullName && formData.email && formData.avatar) {
-       navigate('/ticket', { state: formData }); // Added: Redirect with form data
+       navigate('/ticket', { state: formData }); 
      }
     const { fullName, email, avatar } = formData;
     let validationErrors = {};
@@ -56,7 +56,7 @@ const Attendee = () => {
 
     const newTicket = { fullName, email, avatar };
     setTicket(newTicket);
-    // localStorage.setItem('ticket', JSON.stringify(newTicket));
+    
   };
 
   const handleImageUpload = async (file) => {
@@ -94,14 +94,12 @@ const Attendee = () => {
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0];
 
-        // generate preview url
         const reader = new FileReader();
         reader.onload = () => {
           setPreview(reader.result);
         };
         reader.readAsDataURL(file);
 
-        // upload to imgbb
         handleImageUpload(file);
       }
     },
