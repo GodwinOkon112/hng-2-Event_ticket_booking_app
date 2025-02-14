@@ -46,7 +46,7 @@ const formData = location.state || { fullName: "", email: "", avatar: "" };  // 
             </div>
             <div className='descriptions'>
               <h1>
-                Techember <br /> Fest ”25
+                Techember Fest ”25
               </h1>
               <div className='small-desc'>
                 <p>📍 04 Rumens road, Ikoyi, Lagos</p>
