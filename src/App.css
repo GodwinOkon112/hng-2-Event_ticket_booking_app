@@ -333,7 +333,7 @@ input {
   align-items: center;
   justify-content: space-between;
   flex-direction: row-reverse;
-  
+
   gap: 1rem;
 }
 .attendeebtn button {
@@ -578,7 +578,7 @@ input {
   }
 
   .children {
-    width: 90%;
+    width: 100%;
     padding: 1rem;
     background-color: #08252b;
     border-radius: 2rem;
@@ -792,12 +792,12 @@ input {
   }
 
   .ticket-head h1 {
-    font-size: 2em;
+    font-size: 1.5em;
     padding-block: 0.7rem;
   }
 
   .ticket-head p {
-    font-size: 1.2em;
+    font-size: 1em;
     padding-block: 0.7rem;
   }
 
