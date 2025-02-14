@@ -182,8 +182,8 @@ const Attendee = () => {
            */}
 
           <div className='attendeebtn'>
-            <button>
-              <a href='/'>Back</a>
+            <button  onClick={()=>navigate('/')}>
+              Back
             </button>
             <button type='submit' onClick={handleSubmit} ref={submitRef}>
               Get My Free Ticket
