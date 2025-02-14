@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import domtoimage from 'dom-to-image';
 import Parent from './parent';
 import { useNavigate } from 'react-router-dom';
-import jsPDF from 'jspdf';
 
 const Ticket = ({ ticketData }) => {
    const [storedData, setStoredData] = useState(ticketData);
@@ -23,21 +22,12 @@ const Ticket = ({ ticketData }) => {
    }
 
    const downloadTicket = () => {
-     domtoimage
-       .toPng(ticketRef.current)
-       .then((dataUrl) => {
-         const pdf = new jsPDF('p', 'mm', 'a4'); // Portrait, millimeters, A4 size
-         const imgWidth = 190; // Adjust width for A4
-         const imgHeight =
-           (pdf.internal.pageSize.getWidth() / ticketRef.current.clientWidth) *
-           ticketRef.current.clientHeight;
-
-         pdf.addImage(dataUrl, 'PNG', 10, 10, imgWidth, imgHeight);
-         pdf.save('event-ticket.pdf'); // ✅ Saves as PDF
-       })
-       .catch((error) => {
-         console.error('Failed to generate PDF', error);
-       });
+     domtoimage.toPng(ticketRef.current).then((dataUrl) => {
+       const link = document.createElement('a');
+       link.href = dataUrl;
+       link.download = 'event-ticket.png';
+       link.click();
+     });
    };
 
 
