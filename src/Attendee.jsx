@@ -113,7 +113,9 @@ const Attendee = () => {
         <h1>Attendee Details</h1>
         <p>Step 2/3</p>
       </div>
-
+      <div className='progressContainer'>
+        <div className='progressBar'></div>
+      </div>
       <div className='ticket-body'>
         <div className='attendee-inner'>
           <p>Upload Profile Photo</p>
@@ -185,11 +187,7 @@ const Attendee = () => {
             <button>
               <a href='/'>Back</a>
             </button>
-            <button
-              type='submit'
-              onClick={handleSubmit}
-              ref={submitRef}
-            >
+            <button type='submit' onClick={handleSubmit} ref={submitRef}>
               Get My Free Ticket
             </button>
           </div>
