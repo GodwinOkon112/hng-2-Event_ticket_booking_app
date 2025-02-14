@@ -53,9 +53,9 @@ const Attendee = () => {
     const { fullName, email, avatar } = formData;
     let validationErrors = {};
 
-    if (formData.fullName && formData.email && formData.avatar) {
-      navigate('/ticket', { state: formData });
-    }
+    // if (formData.fullName && formData.email && formData.avatar) {
+    //   navigate('/ticket', { state: formData });
+    // }
 
     if (!fullName) validationErrors.fullName = 'Full Name is required.';
     if (!email) validationErrors.email = 'Email is required.';
