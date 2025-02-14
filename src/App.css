@@ -566,6 +566,7 @@ input {
 @media screen and (max-width: 800px) {
   .navbar {
     width: 85%;
+    border-radius: 1rem;
   }
 .QR{
   display: none;
@@ -587,7 +588,7 @@ input {
     width: 90%;
     padding: 1rem;
     background-color: #08252b;
-    border-radius: 2rem;
+    border-radius: 1rem;
     /* background-color: red; */
   }
 
