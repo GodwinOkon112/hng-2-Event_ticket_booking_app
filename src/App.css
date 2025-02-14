@@ -620,7 +620,7 @@ input {
   outline: none;
   background: none;
   color: white;
-  font-size: 1.5rem;
+  font-size: .9rem;
   padding: .5rem;
   border: 1px solid rgb(22, 99, 112, 0.5);
   border-radius: 1rem;
@@ -765,7 +765,7 @@ input {
 
   .descriptions h1 {
     width: 100%;
-    font-size: 50.83px;
+    font-size: 45.83px;
     line-height: 55.94px;
   }
 
