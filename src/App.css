@@ -846,7 +846,7 @@ input {
   }
 
   .ticket-head h1 {
-    font-size: 1.5em;
+    font-size: 1.2em;
     padding-block: 0.7rem;
   }
 
@@ -856,7 +856,7 @@ input {
 
   .ticket-head p {
     font-size: 1em;
-    padding-block: 0.7rem;
+    padding-block: 0.5rem;
   }
 
   .ticket-inner h1 {
