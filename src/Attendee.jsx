@@ -1,7 +1,8 @@
 import Parent from './parent';
 import { useState, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
-import {  useNavigate } from 'react-router-dom';
+import Ticket from './Ticket';
+import { useNavigate } from 'react-router-dom';
 
 const IMGBB_API_KEY = 'e91e5451e0752ddfd84f86cfa8e00cfe';
 
@@ -11,16 +12,15 @@ const Attendee = () => {
     email: localStorage.getItem('email') || '',
     avatar: localStorage.getItem('avatar') || '',
   });
+
+  const submitRef = useRef(null);
+
   const navigate = useNavigate();
 
   const [ticket, setTicket] = useState(null);
   const [errors, setErrors] = useState({});
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
-  const fullNameRef = useRef(null);
-  const emailRef = useRef(null);
-  const avatarRef = useRef(null);
-  const submitRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem('fullName', formData.fullName);
@@ -32,29 +32,13 @@ const Attendee = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleKeyboard = (e, nextRef, previousRef) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      nextRef?.current?.focus();
-    }
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      previousRef?.current?.focus();
-    }
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      nextRef?.current?.focus();
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
+     if (formData.fullName && formData.email && formData.avatar) {
+       navigate('/ticket', { state: formData }); // Added: Redirect with form data
+     }
     const { fullName, email, avatar } = formData;
     let validationErrors = {};
-
-    if (formData.fullName && formData.email && formData.avatar) {
-      navigate('/ticket', { state: formData });
-    }
 
     if (!fullName) validationErrors.fullName = 'Full Name is required.';
     if (!email) validationErrors.email = 'Email is required.';
@@ -129,9 +113,6 @@ const Attendee = () => {
         <h1>Attendee Details</h1>
         <p>Step 2/3</p>
       </div>
-      <div className='progressContainer'>
-        <div className='progressBar'></div>
-      </div>
 
       <div className='ticket-body'>
         <div className='attendee-inner'>
@@ -157,7 +138,7 @@ const Attendee = () => {
         </div>
         {uploading && <p className='upload'>Uploading...</p>}
         <hr />
-        <form>
+        <form onClick={handleSubmit}>
           <div className='input-group'>
             <p>Enter your name</p>
             <input
@@ -166,9 +147,7 @@ const Attendee = () => {
               placeholder='Full Name'
               value={formData.fullName}
               onChange={handleChange}
-              onKeyDown={(e) => handleKeyboard(e, emailRef, submitRef)}
-              ref={fullNameRef}
-              required
+              autoFocus
             />
             {errors.fullName && <p className='error'>{errors.fullName}</p>}
           </div>
@@ -182,9 +161,6 @@ const Attendee = () => {
               placeholder=' hello@avioflagos.io'
               value={formData.email}
               onChange={handleChange}
-              onKeyDown={(e) => handleKeyboard(e, avatarRef, fullNameRef)}
-              ref={emailRef}
-              required
             />
             {errors.email && <p className='error'>{errors.email}</p>}
           </div>
@@ -198,9 +174,6 @@ const Attendee = () => {
               placeholder='Image URL(auto-filled)'
               value={formData.avatar}
               onChange={handleChange}
-              onKeyDown={(e) => handleKeyboard(e, submitRef, emailRef)}
-              ref={avatarRef}
-              required
             />
             {errors.avatar && <p className='error'>{errors.avatar}</p>}
           </div>
@@ -209,10 +182,14 @@ const Attendee = () => {
            */}
 
           <div className='attendeebtn'>
-            <button onClick={()=> navigate('/')} >
-              Back
+            <button>
+              <a href='/'>Back</a>
             </button>
-            <button type='submit' onClick={handleSubmit}>
+            <button
+              type='submit'
+              onClick={handleSubmit}
+              ref={submitRef}
+            >
               Get My Free Ticket
             </button>
           </div>

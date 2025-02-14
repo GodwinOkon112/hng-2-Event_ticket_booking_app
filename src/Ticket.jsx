@@ -3,9 +3,12 @@ import { useRef } from 'react';
 // import jsPDF from 'jspdf';
 import domtoimage from 'dom-to-image';
 import Parent from './parent';
+import { useLocation } from 'react-router-dom';
 
 const Ticket = ({ fullName, email, avatar }) => {
   const ticketRef = useRef(null);
+  const location = useLocation();  // Added to retrieve state data
+const formData = location.state || { fullName: "", email: "", avatar: "" };  // Added: Default empty data if none passed
 
   const handleDownload = async () => {
     if (ticketRef.current) {
@@ -24,9 +27,6 @@ const Ticket = ({ fullName, email, avatar }) => {
         <h1>Ready</h1>
         <p>Step 3/3</p>
       </div>
-      <div className='progressContainer'>
-        <div className='progressBar'></div>
-      </div>
       <div className='ticket-ready'>
         <h1>Your Ticket is Booked!</h1>
         <p>
@@ -38,26 +38,28 @@ const Ticket = ({ fullName, email, avatar }) => {
         <div className='large'>
           <div className='flex-large'>
             <div className='userImage'>
-              <img src={avatar} alt='user avatar' className='ticket-avatar' />
+              <img
+                src={formData.avatar}
+                alt='user avatar'
+                className='ticket-avatar'
+              />
             </div>
             <div className='descriptions'>
-              <h1>Techember Fest ”25</h1>
+              <h1>
+                Techember <br /> Fest ”25
+              </h1>
               <div className='small-desc'>
                 <p>📍 04 Rumens road, Ikoyi, Lagos</p>
                 <p>📅 March 15, 2025 | 7:00 PM</p>
               </div>
-              <div className='email'>
-                <h3>Full-name: godwin</h3>
-                <h3>Email: godwinokon112@gmail.com</h3>
+              <div className='small'>
+                <h3>{formData.fullName}</h3>
+                <p>{formData.email}</p>
               </div>
             </div>
             <div className='imgup'>
-              <img src='src/assets/regup.svg' alt='' />
+              <img src='src/assets/QRcode.svg' alt='' />
             </div>
-          </div>
-
-          <div className='bottomdesign'>
-            <p>Ticket for 1 entry only</p>
           </div>
         </div>
       
