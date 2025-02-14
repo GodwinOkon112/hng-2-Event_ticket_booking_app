@@ -1,22 +1,45 @@
-import { useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import domtoimage from 'dom-to-image';
 import Parent from './parent';
 import { useNavigate } from 'react-router-dom';
+import jsPDF from 'jspdf';
 
-const Ticket = ({ fullName, email, avatar }) => {
-  const ticketRef = useRef(null);
-  const navigate = useNavigate()
+const Ticket = ({ ticketData }) => {
+   const [storedData, setStoredData] = useState(ticketData);
+   const ticketRef = useRef(null);
+   const navigate = useNavigate()
 
-  const handleDownload = async () => {
-    if (ticketRef.current) {
-      domtoimage.toPng(ticketRef.current).then((dataUrl) => {
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = `${fullName}_ticket.png`;
-        link.click();
-      });
-    }
-  };
+   useEffect(() => {
+     if (!ticketData) {
+       const savedData = localStorage.getItem('ticketData');
+       if (savedData) {
+         setStoredData(JSON.parse(savedData));
+       }
+     }
+   }, [ticketData]);
+
+   if (!storedData) {
+     return <h2>No Ticket Found</h2>;
+   }
+
+   const downloadTicket = () => {
+     domtoimage
+       .toPng(ticketRef.current)
+       .then((dataUrl) => {
+         const pdf = new jsPDF('p', 'mm', 'a4'); // Portrait, millimeters, A4 size
+         const imgWidth = 190; // Adjust width for A4
+         const imgHeight =
+           (pdf.internal.pageSize.getWidth() / ticketRef.current.clientWidth) *
+           ticketRef.current.clientHeight;
+
+         pdf.addImage(dataUrl, 'PNG', 10, 10, imgWidth, imgHeight);
+         pdf.save('event-ticket.pdf'); // ✅ Saves as PDF
+       })
+       .catch((error) => {
+         console.error('Failed to generate PDF', error);
+       });
+   };
+
 
   return (
     <Parent>
@@ -38,7 +61,11 @@ const Ticket = ({ fullName, email, avatar }) => {
         <div className='large'>
           <div className='flex-large'>
             <div className='userImage'>
-              <img src={avatar} alt='user avatar' className='ticket-avatar' />
+              <img
+                src={storedData.avatarUrl}
+                alt='user avatar'
+                className='ticket-avatar'
+              />
             </div>
             <div className='descriptions'>
               <h1>Techember Fest ”25</h1>
@@ -47,8 +74,8 @@ const Ticket = ({ fullName, email, avatar }) => {
                 <p>📅 March 15, 2025 | 7:00 PM</p>
               </div>
               <div className='email'>
-                <h3>Full-name: {fullName}</h3>
-                <h3>Email: {email}</h3>
+                <h3>Full-name: {storedData.fullName}</h3>
+                <h3>Email:{storedData.email}</h3>
               </div>
             </div>
             <div className='QR'>
@@ -56,12 +83,11 @@ const Ticket = ({ fullName, email, avatar }) => {
             </div>
           </div>
         </div>
-      
       </div>
 
       <div className='btnNew'>
-        <button onClick={()=>navigate('/')}>Cancel</button>
-        <button onClick={handleDownload}>Download Ticket</button>
+        <button onClick={() => navigate('/')}>Cancel</button>
+        <button onClick={downloadTicket}>Download Ticket</button>
       </div>
     </Parent>
   );

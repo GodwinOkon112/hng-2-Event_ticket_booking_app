@@ -1,128 +1,109 @@
 import Parent from './parent';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-// import Ticket from './Ticket';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const IMGBB_API_KEY = 'e91e5451e0752ddfd84f86cfa8e00cfe';
+// const IMGBB_API_KEY = 'e91e5451e0752ddfd84f86cfa8e00cfe';
 
-const Attendee = () => {
-  const [formData, setFormData] = useState({
-    fullName: localStorage.getItem('fullName') || '',
-    email: localStorage.getItem('email') || '',
-    avatar: localStorage.getItem('avatar') || '',
-  });
+const Attendee = ({ setTicketData }) => {
   const navigate = useNavigate();
-
-  // const [ticket, setTicket] = useState(null);
-  const [errors, setErrors] = useState({});
-  const [uploading, setUploading] = useState(false);
-  const [preview, setPreview] = useState(null);
   const fullNameRef = useRef(null);
   const emailRef = useRef(null);
-  const avatarRef = useRef(null);
-  const submitRef = useRef(null);
 
+  const [formData, setFormData] = useState(() => {
+    const savedData = localStorage.getItem('formData');
+    return savedData
+      ? JSON.parse(savedData)
+      : { fullName: '', email: '', avatarUrl: '' };
+  });
+
+  const [previewImage, setPreviewImage] = useState(formData.avatarUrl || null);
+  const [errors, setErrors] = useState({
+    fullName: '',
+    email: '',
+    avatarUrl: '',
+  });
+
+  // Save form data to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('fullName', formData.fullName);
-    localStorage.setItem('email', formData.email);
-    localStorage.setItem('avatar', formData.avatar);
+    localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  // Form validation
+  const validateForm = () => {
+    let valid = true;
+    let newErrors = { fullName: '', email: '', avatarUrl: '' };
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full Name is required';
+      valid = false;
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+      valid = false;
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+      valid = false;
+    }
+
+    if (!formData.avatarUrl.trim()) {
+      newErrors.avatarUrl = 'Avatar is required';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
   };
 
-  const handleKeyboard = (e, nextRef, previousRef) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      nextRef?.current?.focus();
-    }
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      previousRef?.current?.focus();
-    }
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      nextRef?.current?.focus();
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { fullName, email, avatar } = formData;
-    let validationErrors = {};
-
-    if (formData.fullName && formData.email && formData.avatar) {
-      navigate('/ticket', { state: formData });
-    }
-
-    if (!fullName) validationErrors.fullName = 'Full Name is required.';
-    if (!email) validationErrors.email = 'Email is required.';
-    if (!avatar) {
-      validationErrors.avatar = 'Avatar URL is required.';
-    } else if (!avatar.match(/^https?:\/\/.*\.(jpg|jpeg|png|gif)$/)) {
-      validationErrors.avatar =
-        'Invalid image URL (must be jpg, jpeg, png, gif).';
-    }
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    // const newTicket = { fullName, email, avatar };
-    // setTicket(newTicket);
-    // localStorage.setItem('ticket', JSON.stringify(newTicket));
-  };
-
-  const handleImageUpload = async (file) => {
-    setUploading(true);
+  // Upload image and get Imgbb URL
+  const uploadImage = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
+    setPreviewImage(URL.createObjectURL(file)); // Show preview before upload
 
     try {
       const response = await fetch(
-        `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
-        {
-          method: 'POST',
-          body: formData,
-        }
+        `https://api.imgbb.com/1/upload?key=e91e5451e0752ddfd84f86cfa8e00cfe`,
+        { method: 'POST', body: formData }
       );
       const data = await response.json();
 
       if (data.success) {
-        setFormData((prev) => ({ ...prev, avatar: data.data.url }));
-        setErrors((prev) => ({ ...prev, avatar: '' }));
+        setFormData((prev) => ({
+          ...prev,
+          avatarUrl: data.data.url, // ✅ Autofill the URL input
+        }));
+        setErrors((prev) => ({ ...prev, avatarUrl: '' }));
       } else {
-        setErrors((prev) => ({ ...prev, avatar: 'Image upload failed.' }));
+        setErrors((prev) => ({ ...prev, avatarUrl: 'Image upload failed' }));
       }
     } catch (error) {
-      setErrors((prev) => ({ ...prev, avatar: 'Upload Error' }));
-      console.log(error);
-    } finally {
-      setUploading(false);
+      console.error('Upload failed', error);
+      setErrors((prev) => ({ ...prev, avatarUrl: 'Failed to upload image' }));
     }
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  // React Dropzone for drag-and-drop image upload
+  const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
+    multiple: false,
     onDrop: (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0];
-
-        // generate preview url
-        const reader = new FileReader();
-        reader.onload = () => {
-          setPreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-
-        // upload to imgbb
-        handleImageUpload(file);
+        uploadImage(acceptedFiles[0]);
       }
     },
   });
+
+  // Handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!validateForm()) return;
+
+    localStorage.setItem('ticketData', JSON.stringify(formData));
+    setTicketData(formData);
+    navigate('/ticket');
+  };
 
   return (
     <Parent>
@@ -140,35 +121,37 @@ const Attendee = () => {
           <div className='dark-bg'>
             <div {...getRootProps()} className='dropzone'>
               <input className='drop-text' {...getInputProps()} />
-              {isDragActive ? (
-                <p> drop the image here...</p>
-              ) : (
-                <div className='cloudicon'>
-                  <img src='/src/assets/cloudicon.svg' alt='' />
-                  <p> drag and drop or click to upload</p>
-                </div>
-              )}
+              <div className='cloudicon'>
+                <img src='/src/assets/cloudicon.svg' alt='' />
+                <p> drag and drop or click to upload</p>
+              </div>
               <div className='preview-container'>
-                {preview && (
-                  <img src={preview} alt='preview' className='preview' />
+                {previewImage && (
+                  <img src={previewImage} alt='preview' className='preview' />
                 )}
               </div>
             </div>
           </div>
         </div>
-        {uploading && <p className='upload'>Uploading...</p>}
+        {errors.avatarUrl && (
+          <p style={{ color: 'red' }} className='upload'>
+            {errors.avatarUrl}
+          </p>
+        )}
         <hr />
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='input-group'>
             <p>Enter your name</p>
             <input
               type='text'
-              name='fullName'
+              ref={fullNameRef}
               placeholder='Full Name'
               value={formData.fullName}
-              onChange={handleChange}
-              onKeyDown={(e) => handleKeyboard(e, emailRef, submitRef)}
-              ref={fullNameRef}
+              onChange={(e) => {
+                setFormData({ ...formData, fullName: e.target.value });
+                // setErrors({ ...errors, fullName: '' });
+              }}
+              // onKeyDown={(e) => handleKeyDown(e, emailRef)}
               required
             />
             {errors.fullName && <p className='error'>{errors.fullName}</p>}
@@ -179,12 +162,15 @@ const Attendee = () => {
 
             <input
               type='email'
-              name='email'
-              placeholder=' hello@avioflagos.io'
-              value={formData.email}
-              onChange={handleChange}
-              onKeyDown={(e) => handleKeyboard(e, avatarRef, fullNameRef)}
               ref={emailRef}
+              placeholder='Email'
+              value={formData.email}
+              onChange={(e) => {
+                setFormData({ ...formData, email: e.target.value });
+                setErrors({ ...errors, email: '' });
+              }}
+              // onKeyDown={(e) => handleKeyDown(e, null)}
+              style={{ borderColor: errors.fullName ? 'red' : 'black' }}
               required
             />
             {errors.email && <p className='error'>{errors.email}</p>}
@@ -192,40 +178,27 @@ const Attendee = () => {
 
           <div className='input-group'>
             <p>Image Url</p>
-
             <input
-              type='url'
-              name='avatar'
-              placeholder='Image URL(auto-filled)'
-              value={formData.avatar}
-              onChange={handleChange}
-              onKeyDown={(e) => handleKeyboard(e, submitRef, emailRef)}
-              ref={avatarRef}
-              required
+              type='text'
+              placeholder='Image URL'
+              value={formData.avatarUrl}
+              onChange={(e) =>
+                setFormData({ ...formData, avatarUrl: e.target.value })
+              } // ✅ Allow manual edits
             />
-            {errors.avatar && <p className='error'>{errors.avatar}</p>}
+            {errors.avatarUrl && (
+              <p style={{ color: 'red' }}>{errors.avatarUrl}</p>
+            )}
           </div>
 
           {/* <input type="file" accept='image/*' onChange={handleFileChange} ref={fileInputRef} hidden />
            */}
 
           <div className='attendeebtn'>
-            <button type='submit' onClick={handleSubmit}>
-              Get My Free Ticket
-            <button onClick={()=> navigate('/')} >
-              Back
-            </button>
-            </button>
+            <button onClick={() => navigate('/')}>Back</button>
+            <button type='submit'>Get My Free Ticket</button>
           </div>
         </form>
-
-        {/* {ticket && (
-          <Ticket
-            fullName={ticket.fullName}
-            email={ticket.email}
-            avatar={ticket.avatar}
-          />
-        )} */}
       </div>
     </Parent>
   );
