@@ -1,11 +1,11 @@
 import { useRef } from 'react';
+// import html2canvas from 'html2canvas';
+// import jsPDF from 'jspdf';
 import domtoimage from 'dom-to-image';
 import Parent from './parent';
-import { useNavigate } from 'react-router-dom';
 
 const Ticket = ({ fullName, email, avatar }) => {
   const ticketRef = useRef(null);
-  const navigate = useNavigate()
 
   const handleDownload = async () => {
     if (ticketRef.current) {
@@ -47,20 +47,24 @@ const Ticket = ({ fullName, email, avatar }) => {
                 <p>📅 March 15, 2025 | 7:00 PM</p>
               </div>
               <div className='email'>
-                <h3>Full-name: {fullName}</h3>
-                <h3>Email: {email}</h3>
+                <h3>Full-name: godwin</h3>
+                <h3>Email: godwinokon112@gmail.com</h3>
               </div>
             </div>
-            <div className='QR'>
-              <img src='src/assets/QRcode.svg' alt='' />
+            <div className='imgup'>
+              <img src='src/assets/regup.svg' alt='' />
             </div>
+          </div>
+
+          <div className='bottomdesign'>
+            <p>Ticket for 1 entry only</p>
           </div>
         </div>
       
       </div>
 
       <div className='btnNew'>
-        <button onClick={()=>navigate('/')}>Cancel</button>
+        <button>Cancel</button>
         <button onClick={handleDownload}>Download Ticket</button>
       </div>
     </Parent>
