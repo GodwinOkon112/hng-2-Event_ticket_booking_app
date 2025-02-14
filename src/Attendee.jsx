@@ -1,7 +1,7 @@
 import Parent from './parent';
 import { useState, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Ticket from './Ticket';
+// import Ticket from './Ticket';
 import {  useNavigate } from 'react-router-dom';
 
 const IMGBB_API_KEY = 'e91e5451e0752ddfd84f86cfa8e00cfe';
@@ -14,7 +14,7 @@ const Attendee = () => {
   });
   const navigate = useNavigate();
 
-  const [ticket, setTicket] = useState(null);
+  // const [ticket, setTicket] = useState(null);
   const [errors, setErrors] = useState({});
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
@@ -53,9 +53,9 @@ const Attendee = () => {
     const { fullName, email, avatar } = formData;
     let validationErrors = {};
 
-    // if (formData.fullName && formData.email && formData.avatar) {
-    //   navigate('/ticket', { state: formData });
-    // }
+    if (formData.fullName && formData.email && formData.avatar) {
+      navigate('/ticket', { state: formData });
+    }
 
     if (!fullName) validationErrors.fullName = 'Full Name is required.';
     if (!email) validationErrors.email = 'Email is required.';
@@ -71,8 +71,8 @@ const Attendee = () => {
       return;
     }
 
-    const newTicket = { fullName, email, avatar };
-    setTicket(newTicket);
+    // const newTicket = { fullName, email, avatar };
+    // setTicket(newTicket);
     // localStorage.setItem('ticket', JSON.stringify(newTicket));
   };
 
@@ -212,20 +212,20 @@ const Attendee = () => {
           <div className='attendeebtn'>
             <button type='submit' onClick={handleSubmit}>
               Get My Free Ticket
-            </button>
             <button onClick={()=> navigate('/')} >
               Back
+            </button>
             </button>
           </div>
         </form>
 
-        {ticket && (
+        {/* {ticket && (
           <Ticket
             fullName={ticket.fullName}
             email={ticket.email}
             avatar={ticket.avatar}
           />
-        )}
+        )} */}
       </div>
     </Parent>
   );
