@@ -1,35 +1,22 @@
-import { useEffect, useState, useRef } from 'react';
+import { useRef } from 'react';
 import domtoimage from 'dom-to-image';
 import Parent from './parent';
 import { useNavigate } from 'react-router-dom';
 
-const Ticket = ({ ticketData }) => {
-   const [storedData, setStoredData] = useState(ticketData);
-   const ticketRef = useRef(null);
-   const navigate = useNavigate()
+const Ticket = ({ fullName, email, avatar }) => {
+  const ticketRef = useRef(null);
+  const navigate = useNavigate()
 
-   useEffect(() => {
-     if (!ticketData) {
-       const savedData = localStorage.getItem('ticketData');
-       if (savedData) {
-         setStoredData(JSON.parse(savedData));
-       }
-     }
-   }, [ticketData]);
-
-   if (!storedData) {
-     return <h2>No Ticket Found</h2>;
-   }
-
-   const downloadTicket = () => {
-     domtoimage.toPng(ticketRef.current).then((dataUrl) => {
-       const link = document.createElement('a');
-       link.href = dataUrl;
-       link.download = 'event-ticket.png';
-       link.click();
-     });
-   };
-
+  const handleDownload = async () => {
+    if (ticketRef.current) {
+      domtoimage.toPng(ticketRef.current).then((dataUrl) => {
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = `${fullName}_ticket.png`;
+        link.click();
+      });
+    }
+  };
 
   return (
     <Parent>
@@ -51,11 +38,7 @@ const Ticket = ({ ticketData }) => {
         <div className='large'>
           <div className='flex-large'>
             <div className='userImage'>
-              <img
-                src={storedData.avatarUrl}
-                alt='user avatar'
-                className='ticket-avatar'
-              />
+              <img src={avatar} alt='user avatar' className='ticket-avatar' />
             </div>
             <div className='descriptions'>
               <h1>Techember Fest ”25</h1>
@@ -64,8 +47,8 @@ const Ticket = ({ ticketData }) => {
                 <p>📅 March 15, 2025 | 7:00 PM</p>
               </div>
               <div className='email'>
-                <h3>Full-name: {storedData.fullName}</h3>
-                <h3>Email:{storedData.email}</h3>
+                <h3>Full-name: {fullName}</h3>
+                <h3>Email: {email}</h3>
               </div>
             </div>
             <div className='QR'>
@@ -73,11 +56,12 @@ const Ticket = ({ ticketData }) => {
             </div>
           </div>
         </div>
+      
       </div>
 
       <div className='btnNew'>
-        <button onClick={() => navigate('/')}>Cancel</button>
-        <button onClick={downloadTicket}>Download Ticket</button>
+        <button onClick={()=>navigate('/')}>Cancel</button>
+        <button onClick={handleDownload}>Download Ticket</button>
       </div>
     </Parent>
   );
