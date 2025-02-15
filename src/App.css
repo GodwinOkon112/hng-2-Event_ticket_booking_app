@@ -590,6 +590,10 @@ input {
   font-size: 1.3rem;
   font-weight: 500;
 }
+
+.cloudicon p {
+  font-size: 1rem;
+}
   .QR {
     display: none;
   }
@@ -643,7 +647,7 @@ input {
   }
 
   input {
-    width: 95%;
+    width: 92%;
     outline: none;
     background: none;
     color: white;

@@ -58,7 +58,7 @@ const Ticket = ({ fullName}) => {
               </div>
             </div>
             <div className='imgup'>
-              <img src='src/assets/QRcode.svg' alt='' />
+              <img src='src/QRcode.svg' alt='' />
             </div>
           </div>
         </div>
