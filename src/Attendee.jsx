@@ -1,7 +1,6 @@
 import Parent from './parent';
 import { useState, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Ticket from './Ticket';
 import { Link, useNavigate } from 'react-router-dom';
 
 const IMGBB_API_KEY = 'e91e5451e0752ddfd84f86cfa8e00cfe';
@@ -13,14 +12,29 @@ const Attendee = () => {
     avatar: localStorage.getItem('avatar') || '',
   });
 
-  const submitRef = useRef(null);
-
   const navigate = useNavigate();
 
-  const [ticket, setTicket] = useState(null);
   const [errors, setErrors] = useState({});
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
+
+  // 🔹 Refs for keyboard navigation
+  const fullNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const avatarRef = useRef(null);
+  const submitRef = useRef(null);
+
+  // 🔹 Function to handle Arrow Up & Arrow Down key navigation
+  const handleKeyDown = (e, nextRef, prevRef) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextRef?.current?.focus();
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      prevRef?.current?.focus();
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem('fullName', formData.fullName);
@@ -34,9 +48,9 @@ const Attendee = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-     if (formData.fullName && formData.email && formData.avatar) {
-       navigate('/ticket', { state: formData }); 
-     }
+    if (formData.fullName && formData.email && formData.avatar) {
+      navigate('/ticket', { state: formData });
+    }
     const { fullName, email, avatar } = formData;
     let validationErrors = {};
 
@@ -53,10 +67,6 @@ const Attendee = () => {
       setErrors(validationErrors);
       return;
     }
-
-    const newTicket = { fullName, email, avatar };
-    setTicket(newTicket);
-    
   };
 
   const handleImageUpload = async (file) => {
@@ -138,7 +148,7 @@ const Attendee = () => {
         </div>
         {uploading && <p className='upload'>Uploading...</p>}
         <hr />
-        <form >
+        <form>
           <div className='input-group'>
             <p>Enter your name</p>
             <input
@@ -147,6 +157,8 @@ const Attendee = () => {
               placeholder='Full Name'
               value={formData.fullName}
               onChange={handleChange}
+              onKeyDown={(e) => handleKeyDown(e, emailRef, submitRef)}
+              ref={fullNameRef}
               autoFocus
             />
             {errors.fullName && <p className='error'>{errors.fullName}</p>}
@@ -161,6 +173,8 @@ const Attendee = () => {
               placeholder=' hello@avioflagos.io'
               value={formData.email}
               onChange={handleChange}
+              onKeyDown={(e) => handleKeyDown(e, avatarRef, fullNameRef)} // 🔹 Moves up & down
+              ref={emailRef}
             />
             {errors.email && <p className='error'>{errors.email}</p>}
           </div>
@@ -174,6 +188,8 @@ const Attendee = () => {
               placeholder='Image URL(auto-filled)'
               value={formData.avatar}
               onChange={handleChange}
+              onKeyDown={(e) => handleKeyDown(e, submitRef, emailRef)}
+              ref={avatarRef}
             />
             {errors.avatar && <p className='error'>{errors.avatar}</p>}
           </div>
@@ -182,7 +198,7 @@ const Attendee = () => {
            */}
 
           <div className='attendeebtn'>
-            <button >
+            <button>
               <Link to={'/'}>Back</Link>
             </button>
             <button type='submit' onClick={handleSubmit} ref={submitRef}>
@@ -190,14 +206,6 @@ const Attendee = () => {
             </button>
           </div>
         </form>
-
-        {ticket && (
-          <Ticket
-            fullName={ticket.fullName}
-            email={ticket.email}
-            avatar={ticket.avatar}
-          />
-        )}
       </div>
     </Parent>
   );

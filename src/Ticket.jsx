@@ -1,23 +1,31 @@
 import { useRef } from 'react';
-import domtoimage from 'dom-to-image';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import Parent from './parent';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Ticket = ({ fullName}) => {
+const Ticket = () => {
   const ticketRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const formData = location.state || { fullName: '', email: '', avatar: '' };
 
-  const handleDownload = async () => {
-    if (ticketRef.current) {
-      domtoimage.toPng(ticketRef.current).then((dataUrl) => {
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = `${fullName}_ticket.png`;
-        link.click();
-      });
-    }
+  // 🔹 Function to capture and download as PDF
+  const handleDownload = () => {
+    const ticketElement = ticketRef.current;
+
+    html2canvas(ticketElement, {
+      scale: 2, // Higher scale for better quality
+      allowTaint: true, // ✅ Allow images from other sources
+      useCORS: true, // ✅ Fixes cross-origin image issues
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 190;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+      pdf.save('ticket.pdf');
+    });
   };
 
   return (
@@ -44,6 +52,7 @@ const Ticket = ({ fullName}) => {
                 src={formData.avatar}
                 alt='user avatar'
                 className='ticket-avatar'
+                crossOrigin='anonymous'
               />
             </div>
             <div className='descriptions'>
