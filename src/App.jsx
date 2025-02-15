@@ -13,7 +13,6 @@ function App() {
         <Routes>
           <Route path='/' element={<TicketSelection />} />
           <Route path='/attendee' element={<Attendee />} />
-          <Route path='/attendee' element={<Attendee />} />
           <Route path='/ticket' element={<Ticket />} />
         </Routes>
       </div>
