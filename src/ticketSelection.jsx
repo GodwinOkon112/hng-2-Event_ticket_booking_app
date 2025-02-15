@@ -39,7 +39,7 @@ const TicketSelection = () => {
                 <h6>20 left!</h6>
               </div>
               <div>
-                <img src='/src/assets/free.svg' alt='' />
+                <Box price={'Free'} />
               </div>
             </div>
             <div className='second type'>
@@ -48,7 +48,7 @@ const TicketSelection = () => {
                 <h6>20 left!</h6>
               </div>
               <div>
-                <img src='/src/assets/50.svg' alt='' />
+                <Box price={'$50'} />
               </div>
             </div>
             <div className='third type'>
@@ -57,7 +57,7 @@ const TicketSelection = () => {
                 <h6>20 left!</h6>
               </div>
               <div>
-                <img src='/src/assets/150.svg' alt='' />
+                <Box price={'$150'} />
               </div>
             </div>
           </Container1>
@@ -83,3 +83,13 @@ const TicketSelection = () => {
 };
 
 export default TicketSelection;
+
+
+const Box =(prop)=>{
+
+  return (
+    <div className='price'>
+      <h4>{prop.price}</h4>
+    </div>
+  );
+}

@@ -2,7 +2,7 @@ import Parent from './parent';
 import { useState, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Ticket from './Ticket';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const IMGBB_API_KEY = 'e91e5451e0752ddfd84f86cfa8e00cfe';
 
@@ -182,8 +182,8 @@ const Attendee = () => {
            */}
 
           <div className='attendeebtn'>
-            <button  onClick={()=>navigate('/')}>
-              Back
+            <button >
+              <Link to={'/'}>Back</Link>
             </button>
             <button type='submit' onClick={handleSubmit} ref={submitRef}>
               Get My Free Ticket

@@ -1,12 +1,13 @@
 import { useRef } from 'react';
 import domtoimage from 'dom-to-image';
 import Parent from './parent';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const Ticket = ({ fullName, email, avatar }) => {
+const Ticket = ({ fullName}) => {
   const ticketRef = useRef(null);
-  const location = useLocation();  
-const formData = location.state || { fullName: "", email: "", avatar: "" };  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const formData = location.state || { fullName: '', email: '', avatar: '' };
 
   const handleDownload = async () => {
     if (ticketRef.current) {
@@ -52,8 +53,8 @@ const formData = location.state || { fullName: "", email: "", avatar: "" };
                 <p>📅 March 15, 2025 | 7:00 PM</p>
               </div>
               <div className='small'>
-                <h3>Name:  {formData.fullName}</h3>
-                <p>Email:  {formData.email}</p>
+                <h3>Name: {formData.fullName}</h3>
+                <p>Email: {formData.email}</p>
               </div>
             </div>
             <div className='imgup'>
@@ -64,7 +65,7 @@ const formData = location.state || { fullName: "", email: "", avatar: "" };
       </div>
 
       <div className='btnNew'>
-        <button>Cancel</button>
+        <button onClick={() => navigate('/')}>Book Another Ticket</button>
         <button onClick={handleDownload}>Download Ticket</button>
       </div>
     </Parent>
