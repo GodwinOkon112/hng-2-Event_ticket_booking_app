@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 import TicketSelection from './ticketSelection';
 import Attendee from './Attendee';
 import Ticket from './Ticket';
-import { Routes, Route } from 'react-router-dom';
+import {  Routes, Route } from "react-router-dom";
 
 function App() {
   return (
