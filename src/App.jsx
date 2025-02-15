@@ -1,5 +1,5 @@
 import './App.css';
-import Navbar from './assets/Navbar';
+import Navbar from './Navbar';
 import TicketSelection from './ticketSelection';
 import Attendee from './Attendee';
 import Ticket from './Ticket';
