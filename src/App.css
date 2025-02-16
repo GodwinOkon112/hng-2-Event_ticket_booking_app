@@ -159,7 +159,7 @@ button {
   margin: 1rem;
   border: 1px solid rgb(22, 106, 121, 0.5);
   padding: 1.5rem;
-  background-color: #08252b;
+  background: linear-gradient(-55deg,#052b33,rgb(27, 110, 124,.6));
   border-radius: 1.2rem;
   text-align: center;
 }
