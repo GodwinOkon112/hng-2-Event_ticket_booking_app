@@ -3,6 +3,8 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import Parent from './parent';
 import { useLocation, useNavigate } from 'react-router-dom';
+import star1 from './assets/regup.svg';
+import star2 from './assets/rgdown.svg';
 
 const Ticket = () => {
   const ticketRef = useRef(null);
@@ -87,6 +89,11 @@ const Ticket = () => {
               <h1>Techember Fest ”25</h1>
               <p>📍 04 Rumens road, Ikoyi, Lagos</p>
               <p>📅 March 15, 2025 | 7:00 PM</p>
+            </div>
+
+            <div className='starimage'>
+              <img src={star1} alt='' />
+              <img src={star2} alt='' />
             </div>
           </div>
         </div>

@@ -558,8 +558,8 @@ input {
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  border-left: 4px solid white;
-  border-right: 4px solid white;
+  border-left: 3px solid #d9d9d9;
+  border-right: 3px solid #d9d9d9;
   border-radius: 1.2rem;
 }
 
@@ -580,7 +580,7 @@ font-size: 1.3rem;
 }
 
 .ticket .textboxuser .details h1{
-font-size: 3.5rem;
+font-size: 3.7rem;
   font-family: 'Road Rage', serif;
 }
 
