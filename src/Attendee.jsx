@@ -58,7 +58,7 @@ const Attendee = () => {
       error.avatar = 'Avatar URL is required.';
     } else if (!avatar.match(/^https?:\/\/.*\.(jpg|jpeg|png|gif)$/)) {
       error.avatar =
-        'Invalid image URL ';
+        'Invalid image URL  n  ';
     }
 
     if (Object.keys(error).length > 0) {

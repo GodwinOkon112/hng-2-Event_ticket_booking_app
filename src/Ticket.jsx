@@ -14,9 +14,9 @@ const Ticket = () => {
     const ticketElem = ticketRef.current;
 
     html2canvas(ticketElem, {
-      scale: 2, 
-      allowTaint: true, 
-      useCORS: true, 
+      scale: 2,
+      allowTaint: true,
+      useCORS: true,
     }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
@@ -44,7 +44,7 @@ const Ticket = () => {
       </div>
 
       <div className='ticket-container' ref={ticketRef}>
-        <div className='large'>
+        {/* <div className='large'>
           <div className='flex-large'>
             <div className='userImage'>
               <img
@@ -67,6 +67,26 @@ const Ticket = () => {
             </div>
             <div className='imgup'>
               <img src='src/QRcode.svg' alt='' />
+            </div>
+          </div>
+        </div> */}
+        <div className='ticket'>
+          <div className='userimage'>
+            <img
+              src={formData.avatar}
+              alt='user avatar'
+              className='ticket-avatar'
+              crossOrigin='anonymous'
+            />
+          </div>
+          <div className='textboxuser'>
+            <h1>Name: {formData.fullName}</h1>
+            <h1>Email: {formData.email}</h1>
+
+            <div className='details'>
+              <h1>Techember Fest ”25</h1>
+              <p>📍 04 Rumens road, Ikoyi, Lagos</p>
+              <p>📅 March 15, 2025 | 7:00 PM</p>
             </div>
           </div>
         </div>
