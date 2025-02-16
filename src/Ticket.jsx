@@ -10,14 +10,13 @@ const Ticket = () => {
   const location = useLocation();
   const formData = location.state || { fullName: '', email: '', avatar: '' };
 
-  // 🔹 Function to capture and download as PDF
   const handleDownload = () => {
-    const ticketElement = ticketRef.current;
+    const ticketElem = ticketRef.current;
 
-    html2canvas(ticketElement, {
-      scale: 2, // Higher scale for better quality
-      allowTaint: true, // ✅ Allow images from other sources
-      useCORS: true, // ✅ Fixes cross-origin image issues
+    html2canvas(ticketElem, {
+      scale: 2, 
+      allowTaint: true, 
+      useCORS: true, 
     }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');

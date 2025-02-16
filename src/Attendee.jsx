@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Link, useNavigate } from 'react-router-dom';
 
-const IMGBB_API_KEY = 'e91e5451e0752ddfd84f86cfa8e00cfe';
+const imgbbkey = 'e91e5451e0752ddfd84f86cfa8e00cfe';
 
 const Attendee = () => {
   const [formData, setFormData] = useState({
@@ -18,17 +18,15 @@ const Attendee = () => {
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
 
-  // 🔹 Refs for keyboard navigation
   const fullNameRef = useRef(null);
   const emailRef = useRef(null);
   const avatarRef = useRef(null);
   const submitRef = useRef(null);
 
-  // 🔹 Function to handle Arrow Up & Arrow Down key navigation
-  const handleKeyDown = (e, nextRef, prevRef) => {
+  const handleKeyDown = (e, next, prevRef) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      nextRef?.current?.focus();
+      next?.current?.focus();
     }
     if (e.key === 'ArrowUp') {
       e.preventDefault();
@@ -52,19 +50,19 @@ const Attendee = () => {
       navigate('/ticket', { state: formData });
     }
     const { fullName, email, avatar } = formData;
-    let validationErrors = {};
+    let error = {};
 
-    if (!fullName) validationErrors.fullName = 'Full Name is required.';
-    if (!email) validationErrors.email = 'Email is required.';
+    if (!fullName) error.fullName = 'Full Name is required.';
+    if (!email) error.email = 'Email is required.';
     if (!avatar) {
-      validationErrors.avatar = 'Avatar URL is required.';
+      error.avatar = 'Avatar URL is required.';
     } else if (!avatar.match(/^https?:\/\/.*\.(jpg|jpeg|png|gif)$/)) {
-      validationErrors.avatar =
-        'Invalid image URL (must be jpg, jpeg, png, gif).';
+      error.avatar =
+        'Invalid image URL ';
     }
 
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+    if (Object.keys(error).length > 0) {
+      setErrors(error);
       return;
     }
   };
@@ -76,7 +74,7 @@ const Attendee = () => {
 
     try {
       const response = await fetch(
-        `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+        `https://api.imgbb.com/1/upload?key=${imgbbkey}`,
         {
           method: 'POST',
           body: formData,
