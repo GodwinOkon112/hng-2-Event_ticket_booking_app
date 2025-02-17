@@ -651,8 +651,8 @@ margin-left: 1rem;
   word-break: break-all;
 padding-left: rem;
 text-align: left;
-font-size:1rem ;
-font-size: .9rem;
+font-size:.6rem ;
+font-size: .6rem;
 padding-left: .2rem;
 }
 
@@ -661,6 +661,7 @@ padding-left: .2rem;
   padding-top: 1.7rem;
   word-break: break-all;
   height: 50px;
+  font-size: .6rem;
 }
 #input{
   width: 50%;
