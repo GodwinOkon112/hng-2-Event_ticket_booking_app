@@ -3,14 +3,19 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import Parent from './parent';
 import { useLocation, useNavigate } from 'react-router-dom';
-import star1 from './assets/regup.svg';
+import bar from './assets/barcode.svg';
 import star2 from './assets/rgdown.svg';
 
 const Ticket = () => {
   const ticketRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const formData = location.state || { fullName: '', email: '', avatar: '' };
+  const formData = location.state || {
+    fullName: '',
+    email: '',
+    avatar: '',
+    request: '',
+  };
 
   const handleDownload = () => {
     const ticketElem = ticketRef.current;
@@ -40,39 +45,11 @@ const Ticket = () => {
       </div>
       <div className='ticket-ready'>
         <h1>Your Ticket is Booked!</h1>
-        <p>
-          You can download and <br /> save for later
-        </p>
+        <p>Check your email for a copy or you can download</p>
       </div>
 
-      <div className='ticket-container' ref={ticketRef}>
-        {/* <div className='large'>
-          <div className='flex-large'>
-            <div className='userImage'>
-              <img
-                src={formData.avatar}
-                alt='user avatar'
-                className='ticket-avatar'
-                crossOrigin='anonymous'
-              />
-            </div>
-            <div className='descriptions'>
-              <h1>Techember Fest ”25</h1>
-              <div className='small-desc'>
-                <p>📍 04 Rumens road, Ikoyi, Lagos</p>
-                <p>📅 March 15, 2025 | 7:00 PM</p>
-              </div>
-              <div className='small'>
-                <h3>Name: {formData.fullName}</h3>
-                <p>Email: {formData.email}</p>
-              </div>
-            </div>
-            <div className='imgup'>
-              <img src='src/QRcode.svg' alt='' />
-            </div>
-          </div>
-        </div> */}
-        <div className='ticket'>
+      <div className='ticket-con' ref={ticketRef}>
+        {/* <div className='ticket'>
           <div className='userimage'>
             <img
               src={formData.avatar}
@@ -95,6 +72,35 @@ const Ticket = () => {
               <img src={star1} alt='' />
               <img src={star2} alt='' />
             </div>
+          </div>
+        </div> */}
+        <div className='bg-container'>
+          <div className='bg-inner-container'>
+            <div className='textbox'>
+              <div className='detail'>
+                <h1>Techember Fest ”25</h1>
+                <p>📍 04 Rumens road, Ikoyi, Lagos</p>
+                <p>📅 March 15, 2025 | 7:00 PM</p>
+              </div>
+              <div className='image-con'>
+                <img src={formData.avatar} alt='' />
+              </div>
+              <div className='details-box'>
+                <div className='four'>
+                  <p id='name'>{formData.fullName}</p>
+                  <p>{formData.email}</p>
+                  <p
+                    id='type
+                  '
+                  >
+                    VIP
+                  </p>
+                  <p id='ticketfor'>1</p>
+                </div>
+                <div className='textarea'>{formData.request}</div>
+              </div>
+            </div>
+            <img src={bar} alt='' id='bar' />
           </div>
         </div>
       </div>

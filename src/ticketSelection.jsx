@@ -35,29 +35,23 @@ const TicketSelection = () => {
           <Container1>
             <div className='first type'>
               <div>
+                <h4>Free</h4>
                 <h5>Regular Access</h5>
-                <h6>20 left!</h6>
-              </div>
-              <div>
-                <Box price={'Free'} />
+                <h6>20/52</h6>
               </div>
             </div>
             <div className='second type'>
               <div>
+                <h4>$150</h4>
                 <h5>VIP Access</h5>
-                <h6>20 left!</h6>
-              </div>
-              <div>
-                <Box price={'$50'} />
+                <h6>20/52</h6>
               </div>
             </div>
             <div className='third type'>
               <div>
+                <h4>$150</h4>
                 <h5>VVIP Access</h5>
-                <h6>20 left!</h6>
-              </div>
-              <div>
-                <Box price={'$150'} />
+                <h6>20/52</h6>
               </div>
             </div>
           </Container1>
@@ -84,12 +78,3 @@ const TicketSelection = () => {
 
 export default TicketSelection;
 
-
-const Box =(prop)=>{
-
-  return (
-    <div className='price'>
-      <h4>{prop.price}</h4>
-    </div>
-  );
-}

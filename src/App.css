@@ -111,7 +111,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .progressContainer {
@@ -153,7 +153,7 @@ button {
   border: 1px solid #0e464f;
   padding: 2rem;
   background-color: #08252b;
-  border-radius: 32px;
+  border-radius: 28px;
 }
 
 .ticket-inner {
@@ -175,11 +175,13 @@ button {
 
 .attendee-inner p {
   margin-bottom: 4rem;
+  font-size: 16px;
 }
 
 .ticket-inner h1 {
-  font-size: 6rem;
+  font-size: 62px;
   padding-block: 0.7rem;
+  line-height: 62px;
   font-family: 'Road Rage', serif;
 }
 
@@ -192,15 +194,15 @@ button {
 }
 
 .container1 .type {
-  padding: 8px;
+  padding: 7px;
   border: 1px solid rgb(36, 160, 181, 0.3);
   border-radius: 1rem;
   border-radius: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 43%;
-  height: 55px;
+  width: 28%;
+  height: auto;
   transition: 0.5s;
 }
 .container1 .type:hover {
@@ -218,16 +220,26 @@ hr {
   color: #fafafa;
   font-weight: 400;
 }
+.type h4 {
+  font-size: 24px;
+  margin-bottom: 1rem;
+
+  line-height: 26.4px;
+  font-weight: 600;
+}
 
 h6 {
   font-weight: 400;
   font-size: 14px;
   line-height: 21px;
+  font-weight: 400;
+  color: rgb(250, 250, 250, 0.8);
 }
 h5 {
   font-weight: 400;
   line-height: 24px;
-  color: #fafafa;
+  color: rgb(250, 250, 250, 0.8);
+  font-weight: 400;
   margin-bottom: 0.4rem;
   font-size: 16px;
 }
@@ -304,13 +316,18 @@ option {
 
 input {
   width: 97%;
+  height: 25px;
   outline: none;
   background: none;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1rem;
   padding: 1rem;
   border: 1px solid rgb(22, 99, 112, 0.5);
   border-radius: 1rem;
+}
+
+input::placeholder {
+  color: white;
 }
 
 .error {
@@ -331,7 +348,7 @@ input {
   width: 50%;
   color: #24a0b5;
   outline: none;
-  padding: 1rem 1.4rem;
+  padding: 1.2rem 1.4rem;
   border-radius: 0.7rem;
   font-size: 16px;
   line-height: 24px;
@@ -413,6 +430,7 @@ input {
   line-height: 24px;
   font-size: 16px;
   text-align: center;
+  margin-top: 1rem;
 }
 
 .ticket-container {
@@ -546,18 +564,117 @@ input {
   font-weight: 500;
 }
 
-.ticket {
-  background-image: url('/src/assets/background.svg');
-  width: 100%;
-  height: 199.85px;
+.bg-container {
+  background-image: url('/src/assets/container.svg');
+  width: 100;
+  height: 600px;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  margin-block: 5rem;
+  border-radius: 1.2rem;
+  padding-top: 3rem;
   position: relative;
-  border-left: 3px solid #d9d9d9;
-  border-right: 3px solid #d9d9d9;
+}
+
+.bg-inner-container {
+  background-image: url('/src/assets/innerContainer.svg');
+  margin: auto;
+  width: 260px;
+  height: 446px;
+  background-position: center;
+  place-content: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   border-radius: 1.2rem;
 }
+
+#bar{
+margin: auto;
+margin-top: 3.5rem;
+margin-left: 1rem;
+}
+
+.textbox{
+  width: 100%;
+  height: 450px;
+}
+
+.image-con{
+  width: 140px;
+ margin: auto;
+ margin-top: 9rem;
+  border-radius: 1rem;
+  /* background-color: red; */
+  height: 137px;
+}
+
+.image-con{
+  width: 140px;
+ margin: auto;
+ margin-top: 3.5rem;
+  border-radius: 1rem;
+  /* background-color: red; */
+  height: 137px;
+}
+.image-con img{
+ width: 100%;
+ place-content: center;
+ height: auto;
+  border-radius: 1rem;
+
+}
+
+
+.details-box{
+  width: 100%;
+  height: 150px;
+  margin-top: 1.8rem;
+}
+.four {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+  flex-wrap: wrap;
+  padding-inline: 1rem;
+
+}
+
+.four p {
+  /* border:1px solid white; */
+  display: flex;
+  height: 22px;
+  margin-top: 1.3rem;
+  width: 48%;
+  word-break: break-all;
+padding-left: rem;
+text-align: left;
+font-size:1rem ;
+font-size: .9rem;
+padding-left: .2rem;
+}
+
+.textarea{
+  padding-inline: 1.5rem;
+  padding-top: 1.7rem;
+  word-break: break-all;
+  height: 50px;
+}
+#input{
+  width: 50%;
+  height: 25px;
+  border: 1px soid rgb(14, 44, 14);
+}
+
+#name, #type, #ticketfor{
+  padding-top:1.2rem ;
+  padding-left: .4em;
+}
+
+#ticketfor{
+    padding-top:1.1rem ;
+}
+
 
 .ticket .userimage {
   position: absolute;
@@ -599,8 +716,53 @@ input {
   right: -9.4rem;
 }
 
+#textarea {
+  width: 97%;
+  outline: none;
+  background: none;
+  color: white;
+  font-size: 1rem;
+  padding: 1rem;
+  border: 1px solid rgb(22, 99, 112, 0.5);
+  border-radius: 1rem;
+  resize: none;
+  height: 100px;
+}
+
+.textarea{
+  padding-left: 2rem;
+  padding-top: 2.5rem;
+}
+
+.detail{
+  text-align: center;
+
+}
+.detail h1{
+  margin-top: 1rem;
+  text-align: center;
+  font-family: 'Road Rage', serif;
+  font-size: 25px;
+}
+.detail p{
+  text-align: center;
+  font-size: 10px;
+}
 /* responsiveness part */
 @media screen and (max-width: 800px) {
+
+  .img-con{
+  width: 140px;
+  position: absolute;
+  margin: auto;
+  top: 12.5rem;
+  left: 10.5rem;
+  border-radius: 1rem;
+  /* background-color: red; */
+  height: 137px;
+  border: 1px solid white;
+}
+
   .navbar {
     width: 85%;
     border-radius: 1rem;
@@ -659,6 +821,10 @@ input {
     border-radius: 1rem;
   }
 
+  #textarea {
+    width: 92%;
+  }
+
   hr {
     border: 1px solid #07373f;
     margin-block: 2rem;
@@ -667,6 +833,19 @@ input {
   .type p {
     font-size: 16px;
     margin-bottom: 1rem;
+  }
+  .type p {
+    font-size: 14px;
+  }
+  .type h4 {
+    font-size: 22px;
+  }
+  h6 {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+    color: rgb(250, 250, 250, 0.8);
   }
 
   h6 {
@@ -715,11 +894,11 @@ input {
 
   .attendeebtn {
     margin-top: 3rem;
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   .attendeebtn button {
     width: 100%;
-    padding-block: 0.5rem;
+    padding-block: 1rem;
   }
 
   .btnNew {
@@ -735,6 +914,10 @@ input {
     background: none;
     width: 100%;
     padding-block: 0.5rem;
+  }
+
+  .container1 {
+    gap: 16px;
   }
 
   .ticket-container {
@@ -877,7 +1060,8 @@ input {
   }
 
   .ticket-inner h1 {
-    font-size: 4.5em;
+    font-size: 48px;
+    line-height: 48px;
     padding-block: 0.7rem;
   }
 
@@ -955,8 +1139,6 @@ input {
   }
 }
 
-
-
 @media screen and (max-width: 442px) {
   .ticket {
     background-image: none;
@@ -1023,8 +1205,8 @@ input {
   }
 }
 
-@media screen and (max-width:362px) {
-   .ticket-container {
+@media screen and (max-width: 362px) {
+  .ticket-container {
     height: 120px;
     width: 95%;
     display: flex;

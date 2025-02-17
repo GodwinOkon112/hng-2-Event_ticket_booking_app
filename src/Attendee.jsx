@@ -9,6 +9,7 @@ const Attendee = () => {
   const [formData, setFormData] = useState({
     fullName: localStorage.getItem('fullName') || '',
     email: localStorage.getItem('email') || '',
+    request: localStorage.getItem('request') || '',
     avatar: localStorage.getItem('avatar') || '',
   });
 
@@ -20,6 +21,7 @@ const Attendee = () => {
 
   const fullNameRef = useRef(null);
   const emailRef = useRef(null);
+  const requestRef = useRef(null)
   const avatarRef = useRef(null);
   const submitRef = useRef(null);
 
@@ -37,6 +39,7 @@ const Attendee = () => {
   useEffect(() => {
     localStorage.setItem('fullName', formData.fullName);
     localStorage.setItem('email', formData.email);
+    localStorage.setItem('rquest', formData.request);
     localStorage.setItem('avatar', formData.avatar);
   }, [formData]);
 
@@ -46,19 +49,24 @@ const Attendee = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.fullName && formData.email && formData.avatar) {
+    if (
+      formData.fullName &&
+      formData.email &&
+      formData.avatar &&
+      formData.request ) {
       navigate('/ticket', { state: formData });
     }
-    const { fullName, email, avatar } = formData;
+    const { fullName, email, avatar, request } = formData;
     let error = {};
 
     if (!fullName) error.fullName = 'Full Name is required.';
     if (!email) error.email = 'Email is required.';
+    if (!request) error.request = 'special request is required.';
     if (!avatar) {
       error.avatar = 'Avatar URL is required.';
     } else if (!avatar.match(/^https?:\/\/.*\.(jpg|jpeg|png|gif)$/)) {
       error.avatar =
-        'Invalid image URL  n  ';
+        'Invalid image URL   ';
     }
 
     if (Object.keys(error).length > 0) {
@@ -171,25 +179,27 @@ const Attendee = () => {
               placeholder=' hello@avioflagos.io'
               value={formData.email}
               onChange={handleChange}
-              onKeyDown={(e) => handleKeyDown(e, avatarRef, fullNameRef)} // 🔹 Moves up & down
+              onKeyDown={(e) => handleKeyDown(e, requestRef, fullNameRef)} // 🔹 Moves up & down
               ref={emailRef}
             />
             {errors.email && <p className='error'>{errors.email}</p>}
           </div>
 
           <div className='input-group'>
-            <p>Image Url</p>
+            <p>Special request?</p>
 
-            <input
-              type='url'
-              name='avatar'
-              placeholder='Image URL(auto-filled)'
-              value={formData.avatar}
+            <textarea
+              type='request'
+              value={formData.request}
+              name='request'
               onChange={handleChange}
+              id='textarea'
               onKeyDown={(e) => handleKeyDown(e, submitRef, emailRef)}
-              ref={avatarRef}
-            />
-            {errors.avatar && <p className='error'>{errors.avatar}</p>}
+              ref={requestRef}
+            ></textarea>
+
+        
+            {errors.request && <p className='error'>{errors.request}</p>}
           </div>
 
           {/* <input type="file" accept='image/*' onChange={handleFileChange} ref={fileInputRef} hidden />
