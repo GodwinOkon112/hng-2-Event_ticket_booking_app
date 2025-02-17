@@ -618,6 +618,7 @@ margin-left: 1rem;
 }
 .image-con img{
  width: 100%;
+  height: 137px;
  place-content: center;
  height: auto;
   border-radius: 1rem;
